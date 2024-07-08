@@ -6,16 +6,16 @@ import os
 import time
 
 # 기준 이미지 불러오기 및 인코딩
-use_camera = True  # False면 img, True면 camera
+use_camera = False  # False면 img, True면 camera
 
 # 신분증 이미지
-#faceimg = face_recognition.load_image_file('face_pics/ai_hub_data/age/people4 (7).jpg')
-faceimg = face_recognition.load_image_file('face_pics/23jungeun.jpg')
+faceimg = face_recognition.load_image_file('face_pics/ai_hub_data/age/people4 (7).jpg')
+#faceimg = face_recognition.load_image_file('face_pics/23jungeun.jpg')
 faceimg = cv2.cvtColor(faceimg, cv2.COLOR_BGR2RGB)
 
 # 테스트 이미지
-#imgTest = face_recognition.load_image_file('face_pics/ai_hub_data/age/people4 (8).jpg')
-imgTest = face_recognition.load_image_file('face_pics/21jungeun.jpg')
+imgTest = face_recognition.load_image_file('face_pics/ai_hub_data/age/people4 (8).jpg')
+#imgTest = face_recognition.load_image_file('face_pics/21jungeun.jpg')
 imgTest = cv2.cvtColor(imgTest, cv2.COLOR_BGR2RGB)
 
 # 기준 이미지 얼굴 위치와 인코딩
@@ -28,7 +28,7 @@ if use_camera:
     cap = cv2.VideoCapture(0)
 
 # CSV 파일 존재 여부 확인 및 초기화
-csv_filename = 'C:/KJE/CE_graduation/face_rec/face_rec_data/face_features.csv'
+csv_filename = 'C:/KJE/CE_graduation/FaceRecognition_JE/face_rec_data/face_features.csv' #본인 경로로 재설정 필요
 if not os.path.exists(csv_filename):
     # CSV 파일 생성 및 헤더 추가
     df = pd.DataFrame(columns=[f'feature_{i}' for i in range(len(encodeRef))])
@@ -76,10 +76,10 @@ while True:
         else:
             cv2.putText(imgTest, best_match_text, (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 2)
 
-    # 5초가 지나면 유사도 값 저장
+    # N초가 지나면 유사도 값 저장(현재는 10초로 설정)
     if time.time() - start_time >= 10:
         if best_face_encoding is not None:
-            if best_min_distance <= 0.42:
+            if best_min_distance <= 0.40:#유사도 N이하면 얼굴 데이터 csv로 저장(현재는 0.4로 설정)
                 print(f"Face recognized with distance: {best_min_distance}. Features saved.")
                 # CSV 파일에 특징값 저장
                 df = pd.read_csv(csv_filename)

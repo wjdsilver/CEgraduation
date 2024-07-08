@@ -6,7 +6,7 @@ import os
 import time
 
 # use_camera 변수 설정
-use_camera = True  # False면 img, True면 camera
+use_camera = False  # False면 img, True면 camera
 
 # CSV 파일 경로
 csv_filename = 'C:/KJE/CE_graduation/face_rec/face_rec_data/face_features.csv'
@@ -20,8 +20,8 @@ if use_camera:
     cap = cv2.VideoCapture(0)
 else:
     # 테스트 이미지 불러오기
-    test_image_path = 'face_pics/21jungeun.jpg'  # 여기에 테스트 이미지 경로를 설정
-    #test_image_path = 'face_pics/ai_hub_data/age/people1 (3).jpg'  # 여기에 테스트 이미지 경로를 설정
+    #test_image_path = 'face_pics/21jungeun.jpg'  # 여기에 테스트 이미지 경로를 설정
+    test_image_path = 'face_pics/ai_hub_data/age/people1 (3).jpg'  # 여기에 테스트 이미지 경로를 설정
     imgTest = face_recognition.load_image_file(test_image_path)
     imgTest = cv2.cvtColor(imgTest, cv2.COLOR_BGR2RGB)
 
@@ -57,7 +57,7 @@ while True:
             # 최솟값 갱신
             if current_min_distance < min_distance:
                 min_distance = current_min_distance
-                if min_distance <= 0.4:
+                if min_distance <= 0.4:#유사도 N이하면 얼굴 데이터 csv로 저장(현재는 0.4로 설정)
                     best_match_text = "동일인입니다."
                 else:
                     best_match_text = "동일인이 아닙니다."
@@ -70,7 +70,7 @@ while True:
                 cv2.rectangle(imgTest, (left, top), (right, bottom), (255, 0, 255), 2)
                 #cv2.putText(imgTest, best_match_text, (left, top - 10), cv2.FONT_HERSHEY_COMPLEX, 0.5, (0, 0, 255), 2)
 
-    # 5초가 지나면 루프 종료
+    # N초가 지나면 루프 종료(현재는 5초로 설정)
     if time.time() - start_time >= 5:
         break
 
