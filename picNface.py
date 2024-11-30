@@ -6,11 +6,11 @@ import os
 import time
 
 # 기준 이미지 불러오기 및 인코딩
-use_camera = False  # False면 img, True면 camera
+use_camera = True  # False면 img, True면 camera
 
 # 신분증 이미지
-faceimg = face_recognition.load_image_file('face_pics/ai_hub_data/age/people4 (7).jpg')
-#faceimg = face_recognition.load_image_file('face_pics/23jungeun.jpg')
+#faceimg = face_recognition.load_image_file('face_pics/ai_hub_data/age/people4 (7).jpg')
+faceimg = face_recognition.load_image_file('/Users/kim-jungeun/safeT_programs/face_pics/JE.jpeg')
 faceimg = cv2.cvtColor(faceimg, cv2.COLOR_BGR2RGB)
 
 # 테스트 이미지
@@ -28,7 +28,7 @@ if use_camera:
     cap = cv2.VideoCapture(0)
 
 # CSV 파일 존재 여부 확인 및 초기화
-csv_filename = 'C:/KJE/CE_graduation/FaceRecognition_JE/face_rec_data/face_features.csv' #본인 경로로 재설정 필요
+csv_filename = '/Users/kim-jungeun/safeT_programs/face_rec_data/face_features.csv' #본인 경로로 재설정 필요
 if not os.path.exists(csv_filename):
     # CSV 파일 생성 및 헤더 추가
     df = pd.DataFrame(columns=[f'feature_{i}' for i in range(len(encodeRef))])
